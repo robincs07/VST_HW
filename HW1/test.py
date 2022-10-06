@@ -9,7 +9,7 @@ import torchvision
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-from train import SportVGGNet
+from train import MySportVGGNet
 
 TEST_PATH="Data/test"
 
@@ -33,7 +33,7 @@ def main():
     device =torch.device('cuda:1' if torch.cuda.is_available() else 'cpu')
     print('Device: ', device)
     # load model
-    model = SportVGGNet().to(device)
+    model = MySportVGGNet().to(device)
     model.load_state_dict(torch.load("sport_model.pth"))
 
     test_dataset = TestLoader(TEST_PATH)
@@ -45,7 +45,7 @@ def main():
             x=x.to(device)
             pred = model(x)
             _, idx = torch.max(pred, 1)
-        f.write("{},{}\n".format("".join(img_name), idx.item()))
+        f.write("{}, {}\n".format("".join(img_name), idx.item()))
 
     f.close()
 
